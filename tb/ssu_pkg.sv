@@ -4,18 +4,26 @@ package ssu_pkg;
 
     `include "uvm_macros.svh"
 
-    // Include transaction
+    // Include transaction first (base class)
     `include "ssu_transaction.sv"
 
-    // Include all UVM components
-    `include "ssu_agent.sv"
-    `include "ssu_driver.sv"
-    `include "ssu_monitor.sv"
-    `include "ssu_sequencer.sv"
-    `include "ssu_env.sv"
-    `include "ssu_scoreboard.sv"
-    `include "ssu_reset_seq.sv"
-    `include "ssu_seq.sv"
-    `include "ssu_test.sv"
+    // Include agent components (depend on transaction)
+    `include "agents/ssu_driver.sv"
+    `include "agents/ssu_monitor.sv"
+    `include "agents/ssu_sequencer.sv"
+    `include "env/ssu_scoreboard.sv"
+
+    // Include agent (depends on driver, monitor, sequencer)
+    `include "agents/ssu_agent.sv"
+
+    // Include environment (depends on agent and scoreboard)
+    `include "env/ssu_env.sv"
+
+    // Include sequences (depend on sequencer)
+    `include "seq/ssu_reset_seq.sv"
+    `include "seq/ssu_seq.sv"
+
+    // Include test (depends on environment)
+    `include "tests/ssu_test.sv"
 
 endpackage
