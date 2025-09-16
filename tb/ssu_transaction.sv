@@ -150,15 +150,3 @@ class ssu_transaction extends uvm_sequence_item;
     endfunction
 
 endclass
-    endfunction
-
-    // Print function
-    function string convert2string();
-        string s;
-        s = super.convert2string();
-        $sformat(s, "%s\n clk_in: %b\n data_in: %h\n data_out: %h\n clk_out: %b\n sync_ok: %b",
-                 s, clk_in, data_in, data_out, clk_out, sync_ok);
-        return s;
-    endfunction
-
-endclass
