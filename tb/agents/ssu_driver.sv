@@ -68,8 +68,6 @@ class ssu_driver extends uvm_driver#(ssu_transaction);
         vif.drv_cb.cs <= 1'b0;
         `uvm_info("DRV", "Deasserted CS", UVM_HIGH)
     endtask
-        @(vif.drv_cb);
-    endtask
 
     task drive_write(ssu_transaction tr);
         `uvm_info("DRV", $sformatf("Starting write transaction for addr %h, data %h", tr.addr, tr.wdata), UVM_MEDIUM)
