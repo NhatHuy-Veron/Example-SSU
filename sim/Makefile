@@ -16,7 +16,7 @@ build:
 	@echo "[BUILD] Compiling design and testbench..."
 	vlib work
 	vmap work work
-	vlog -sv +cover=bcesft +acc -f filelists.f | tee compile.log
+	vlog -sv +cover=bcesft +acc -f filelists.f +define+UVM_NO_DEPRECATED +define+UVM_OBJECT_MUST_HAVE_CONSTRUCTOR | tee compile.log
 
 run:
 	@echo "[SIM] Running UVM test: $(TESTNAME)"

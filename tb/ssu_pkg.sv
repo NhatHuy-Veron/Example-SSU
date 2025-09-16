@@ -1,7 +1,7 @@
 package ssu_pkg;
 
+    // Import UVM package
     import uvm_pkg::*;
-
     `include "uvm_macros.svh"
 
     // Include transaction first (base class)
