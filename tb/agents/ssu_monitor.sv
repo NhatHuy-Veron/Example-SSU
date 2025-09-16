@@ -27,10 +27,9 @@ class ssu_monitor extends uvm_monitor;
 
     task monitor_transactions();
         ssu_transaction tr;
-        bit prev_cs = 1'b0;
 
-        // Monitor register accesses - only sample on CS rising edge
-        if (vif.mon_cb.cs && !prev_cs) begin
+        // Monitor register accesses
+        if (vif.mon_cb.cs) begin
             tr = ssu_transaction::type_id::create("tr");
             tr.addr = vif.mon_cb.addr;
             tr.wdata = vif.mon_cb.wdata;
@@ -38,17 +37,14 @@ class ssu_monitor extends uvm_monitor;
 
             if (vif.mon_cb.we) begin
                 tr.trans_type = ssu_transaction::WRITE;
-                `uvm_info("MON", $sformatf("Detected WRITE: addr=%h, data=%h", tr.addr, tr.wdata), UVM_MEDIUM)
             end else begin
                 tr.trans_type = ssu_transaction::READ;
                 tr.rdata = vif.mon_cb.rdata;
-                `uvm_info("MON", $sformatf("Detected READ: addr=%h, data=%h", tr.addr, tr.rdata), UVM_MEDIUM)
             end
 
             ap.write(tr);
+            @(vif.mon_cb);
         end
-
-        prev_cs = vif.mon_cb.cs;
 
         // Monitor serial communication
         monitor_serial_activity();

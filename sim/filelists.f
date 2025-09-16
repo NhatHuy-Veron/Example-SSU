@@ -6,8 +6,9 @@
 +incdir+../tb/seq
 +incdir+../tb/tests
 
-# UVM library setup
--L uvm
+# UVM library (if needed, uncomment and set correct path)
+# +incdir+/path/to/uvm/src
+# -L uvm
 
 # RTL files
 ../rtl/ssu.sv

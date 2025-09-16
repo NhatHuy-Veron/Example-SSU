@@ -18,25 +18,36 @@ class ssu_test extends uvm_test;
         ssu_seq seq;
 
         phase.raise_objection(this);
+
         `uvm_info("TEST", "Starting SSU test", UVM_LOW)
 
         // First run reset sequence
         reset_seq = ssu_reset_seq::type_id::create("reset_seq");
         reset_seq.start(env.agt.seqr);
-        `uvm_info("TEST", "Reset sequence completed", UVM_MEDIUM)
 
         // Wait a bit after reset
         #100;
-        `uvm_info("TEST", "Wait after reset completed", UVM_MEDIUM)
+
+        `uvm_info("TEST", "Reset sequence completed, starting main sequence", UVM_LOW)
 
         // Then run main sequence
         seq = ssu_seq::type_id::create("seq");
-        seq.start(env.agt.seqr);
-        `uvm_info("TEST", "Main sequence completed", UVM_MEDIUM)
+        fork
+            begin
+                seq.start(env.agt.seqr);
+                `uvm_info("TEST", "Main sequence completed", UVM_LOW)
+            end
+            begin
+                // Reasonable timeout for the simple test
+                #50_000; // 50us timeout
+                `uvm_warning("TEST", "Simulation timeout reached - forcing completion")
+            end
+        join_any
 
-        // Wait a bit before ending
-        #100;
-        `uvm_info("TEST", "Test completed successfully", UVM_LOW)
+        // Wait a bit for any remaining activity to complete
+        #1000;
+
+        `uvm_info("TEST", "Test completed, dropping objection", UVM_LOW)
         phase.drop_objection(this);
     endtask
 

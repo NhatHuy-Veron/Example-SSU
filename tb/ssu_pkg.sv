@@ -1,6 +1,3 @@
-`ifndef SSU_PKG_SV
-`define SSU_PKG_SV
-
 package ssu_pkg;
 
     // Import UVM package
@@ -29,6 +26,4 @@ package ssu_pkg;
     // Include test (depends on environment)
     `include "tests/ssu_test.sv"
 
-endpackage : ssu_pkg
-
-`endif // SSU_PKG_SV
+endpackage
