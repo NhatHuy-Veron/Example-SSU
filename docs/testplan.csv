@@ -1,0 +1,117 @@
+Test ID,Description,Priority,Coverage Target,Status
+SSU_REG_001,Basic register read/write functionality,High,100% register fields,Planned
+SSU_REG_002,Reset value verification for all registers,High,All register reset states,Planned
+SSU_REG_003,Reserved bit handling (read-only, write-ignore),Medium,Reserved bit behavior,Planned
+SSU_REG_004,Write protection mechanisms (SOLP bit),High,Protection logic,Planned
+SSU_REG_005,Software reset functionality (SRES bit),High,Reset sequence,Planned
+SSU_REG_006,Module stop register access,Medium,Module stop behavior,Planned
+SSU_REG_007,Invalid address access,Low,Error handling,Planned
+SSU_REG_008,Concurrent register access scenarios,Medium,Bus arbitration,Planned
+SSU_REG_009,Status register clear-on-write-after-read,High,Status flag management,Planned
+SSU_REG_010,Data register valid/invalid access based on DATS,High,Data length dependency,Planned
+SSU_CLK_001,Internal clock divider ratios (φ/4 to φ/256),High,All CKS settings,Planned
+SSU_CLK_002,External clock input in slave mode,High,External clock handling,Planned
+SSU_CLK_003,Clock polarity settings (CPOS),High,Both polarities,Planned
+SSU_CLK_004,Clock phase settings (CPHS),High,Both phases,Planned
+SSU_CLK_005,Clock synchronous vs SSU mode differences,High,Mode-specific behavior,Planned
+SSU_CLK_006,Clock edge detection accuracy,Medium,Edge timing,Planned
+SSU_CLK_007,Clock stability during mode switches,Medium,Transition behavior,Planned
+SSU_CLK_008,Clock output enable/disable (SCKS bit),High,Pin control,Planned
+SSU_TX_001,8-bit data transmission in master mode,High,Basic TX functionality,Planned
+SSU_TX_002,16-bit data transmission in master mode,High,16-bit data path,Planned
+SSU_TX_003,24-bit data transmission in master mode,High,24-bit data path,Planned
+SSU_TX_004,32-bit data transmission in master mode,High,32-bit data path,Planned
+SSU_TX_005,LSB-first transmission (MLS=0),High,Bit order control,Planned
+SSU_TX_006,MSB-first transmission (MLS=1),High,Bit order control,Planned
+SSU_TX_007,Consecutive data transmission,High,Back-to-back transfers,Planned
+SSU_TX_008,Transmission in slave mode,High,Slave TX operation,Planned
+SSU_TX_009,Bidirectional mode transmission,High,BIDE mode,Planned
+SSU_TX_010,Transmission with different clock phases,High,CPHS variations,Planned
+SSU_TX_011,Transmission with different clock polarities,High,CPOS variations,Planned
+SSU_TX_012,TDRE flag behavior during transmission,High,Status flag timing,Planned
+SSU_TX_013,TEND flag behavior and timing,High,Transmission end detection,Planned
+SSU_TX_014,TXI interrupt generation,High,Interrupt functionality,Planned
+SSU_TX_015,TEI interrupt generation,High,End interrupt,Planned
+SSU_RX_001,8-bit data reception in master mode,High,Basic RX functionality,Planned
+SSU_RX_002,16-bit data reception in master mode,High,16-bit data path,Planned
+SSU_RX_003,24-bit data reception in master mode,High,24-bit data path,Planned
+SSU_RX_004,32-bit data reception in master mode,High,32-bit data path,Planned
+SSU_RX_005,LSB-first reception (MLS=0),High,Bit order control,Planned
+SSU_RX_006,MSB-first reception (MLS=1),High,Bit order control,Planned
+SSU_RX_007,Reception in slave mode,High,Slave RX operation,Planned
+SSU_RX_008,Bidirectional mode reception,High,BIDE mode,Planned
+SSU_RX_009,RDRF flag behavior during reception,High,Status flag timing,Planned
+SSU_RX_010,RXI interrupt generation,High,Interrupt functionality,Planned
+SSU_RX_011,Dummy read sequence verification,Medium,Initialization sequence,Planned
+SSU_TXRX_001,Full-duplex operation in standard mode,High,Simultaneous TX/RX,Planned
+SSU_TXRX_002,Data integrity during full-duplex,High,Data path isolation,Planned
+SSU_TXRX_003,Timing synchronization TX/RX,High,Clock alignment,Planned
+SSU_TXRX_004,Mixed data lengths in full-duplex,Medium,Length handling,Planned
+SSU_TXRX_005,Interrupt handling during full-duplex,High,Concurrent interrupts,Planned
+SSU_MODE_001,Standard mode with 4-wire interface,High,SSU standard operation,Planned
+SSU_MODE_002,Bidirectional mode with 3-wire interface,High,SSU bidirectional,Planned
+SSU_MODE_003,SCS pin functionality in different modes,High,Chip select control,Planned
+SSU_MODE_004,Master mode clock and data output,High,Master operation,Planned
+SSU_MODE_005,Slave mode clock and data input,High,Slave operation,Planned
+SSU_MODE_006,Mode switching during idle state,Medium,Dynamic reconfiguration,Planned
+SSU_MODE_007,Pin direction control based on mode,High,I/O pin behavior,Planned
+SSU_CLKSYNC_001,Basic clock synchronous operation,High,SSUMS=1 functionality,Planned
+SSU_CLKSYNC_002,3-wire interface in clock sync mode,High,Pin configuration,Planned
+SSU_CLKSYNC_003,CPHS setting ignored in clock sync mode,Medium,Mode-specific behavior,Planned
+SSU_CLKSYNC_004,Master/slave in clock synchronous mode,High,Both roles,Planned
+SSU_ERR_001,Overrun error generation (RDRF=1, new data),High,ORER flag setting,Planned
+SSU_ERR_002,Overrun error interrupt (OEI) generation,High,Error interrupt,Planned
+SSU_ERR_003,Overrun error recovery sequence,High,Error recovery,Planned
+SSU_ERR_004,Data loss during overrun condition,High,Data integrity,Planned
+SSU_ERR_005,Transmission blocked during overrun,High,Error state behavior,Planned
+SSU_CONF_001,Conflict error in master mode (SCS low),High,CE flag setting,Planned
+SSU_CONF_002,Incomplete error in slave mode (SCS high),High,Incomplete detection,Planned
+SSU_CONF_003,Conflict error interrupt (CEI) generation,High,Error interrupt,Planned
+SSU_CONF_004,MSS bit auto-clear on conflict,High,Auto-correction,Planned
+SSU_CONF_005,Conflict detection timing windows,Medium,Detection precision,Planned
+SSU_CONF_006,Recovery from conflict error,High,Error recovery,Planned
+SSU_PIN_001,SSCK pin direction control,High,Clock pin behavior,Planned
+SSU_PIN_002,SSI/SSO pin multiplexing,High,Data pin control,Planned
+SSU_PIN_003,SCS pin control modes (CSS bits),High,Chip select modes,Planned
+SSU_PIN_004,Open-drain output configuration,Medium,Drive strength,Planned
+SSU_PIN_005,Pin output timing in different modes,High,Timing relationships,Planned
+SSU_PIN_006,Pin high-Z state during inactive periods,Medium,Tri-state control,Planned
+SSU_PIN_007,SOL bit functionality for output level,Medium,Manual level control,Planned
+SSU_PIN_008,Pin behavior during module stop,Medium,Power-down state,Planned
+SSU_SCS_001,SCS as I/O port (CSS=00),Medium,Port functionality,Planned
+SSU_SCS_002,SCS input mode (CSS=01),High,Input detection,Planned
+SSU_SCS_003,SCS automatic I/O (CSS=10),High,Auto control,Planned
+SSU_SCS_004,SCS automatic output (CSS=11),High,Output control,Planned
+SSU_SCS_005,SCS timing with data transfer,High,Synchronization,Planned
+SSU_SCS_006,SCS lead/lag timing (SCSATS bit),Medium,Timing adjustment,Planned
+SSU_INT_001,TXI interrupt on TDRE flag,High,TX interrupt,Planned
+SSU_INT_002,RXI interrupt on RDRF flag,High,RX interrupt,Planned
+SSU_INT_003,TEI interrupt on TEND flag,High,TX end interrupt,Planned
+SSU_INT_004,OEI interrupt on ORER flag,High,Overrun interrupt,Planned
+SSU_INT_005,CEI interrupt on CE flag,High,Conflict interrupt,Planned
+SSU_INT_006,Interrupt enable/disable functionality,High,Enable control,Planned
+SSU_INT_007,Multiple simultaneous interrupts,High,Priority handling,Planned
+SSU_INT_008,Interrupt timing and duration,Medium,Timing specifications,Planned
+SSU_INT_009,Interrupt clearing mechanisms,High,Clear procedures,Planned
+SSU_INT_010,Spurious interrupt detection,Medium,False interrupt prevention,Planned
+SSU_TIME_001,Setup and hold time requirements,High,Interface timing,Planned
+SSU_TIME_002,Clock-to-output timing,High,Output timing,Planned
+SSU_TIME_003,SCS assertion/deassertion timing,High,Control timing,Planned
+SSU_TIME_004,Data valid timing windows,High,Data integrity,Planned
+SSU_TIME_005,Mode transition timing,Medium,Configuration timing,Planned
+SSU_TIME_006,Interrupt response timing,Medium,Latency measurement,Planned
+SSU_PERF_001,Maximum transfer rate verification,High,Performance limits,Planned
+SSU_PERF_002,Consecutive transfer efficiency,High,Throughput testing,Planned
+SSU_PERF_003,Clock jitter tolerance,Medium,Robustness,Planned
+SSU_PERF_004,Power consumption in different modes,Low,Power analysis,Planned
+SSU_CORNER_001,Mode changes during active transfer,High,Race conditions,Planned
+SSU_CORNER_002,Register access during data transfer,High,Concurrent access,Planned
+SSU_CORNER_003,Clock frequency changes during operation,Medium,Dynamic reconfiguration,Planned
+SSU_CORNER_004,Minimum and maximum data lengths,High,Boundary conditions,Planned
+SSU_CORNER_005,Back-to-back register writes,Medium,Write timing,Planned
+SSU_CORNER_006,Reset during active transfer,High,Reset handling,Planned
+SSU_CORNER_007,Module stop/start sequences,Medium,Power control,Planned
+SSU_STRESS_001,Extended operation test (1M+ transfers),Medium,Reliability,Planned
+SSU_STRESS_002,Random configuration changes,Medium,Robustness,Planned
+SSU_STRESS_003,Maximum interrupt rate handling,Medium,Interrupt processing,Planned
+SSU_STRESS_004,Thermal stress simulation,Low,Environmental conditions,Planned
