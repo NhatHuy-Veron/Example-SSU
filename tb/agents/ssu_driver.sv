@@ -28,10 +28,10 @@ class ssu_driver extends uvm_driver#(ssu_transaction);
 
     task drive_transaction(ssu_transaction tr);
         case (tr.trans_type)
-            READ: drive_read(tr);
-            WRITE: drive_write(tr);
-            SERIAL_TX: drive_serial_tx(tr);
-            SERIAL_RX: drive_serial_rx(tr);
+            ssu_transaction::READ: drive_read(tr);
+            ssu_transaction::WRITE: drive_write(tr);
+            ssu_transaction::SERIAL_TX: drive_serial_tx(tr);
+            ssu_transaction::SERIAL_RX: drive_serial_rx(tr);
         endcase
     endtask
 
