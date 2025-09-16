@@ -13,6 +13,18 @@ class ssu_scoreboard extends uvm_scoreboard;
     bit [7:0] ref_sscr2 = 8'h00;  // SS Control Register 2
     bit [7:0] ref_sstdr[4] = '{0,0,0,0}; // Transmit Data Registers
     bit [7:0] ref_ssrdr[4] = '{0,0,0,0}; // Receive Data Registers
+    
+    // Data length derived from SSCRL
+    bit [7:0] data_length;
+    
+    function void update_data_length();
+        case (ref_sscrl[1:0])
+            2'b00: data_length = 8'd8;
+            2'b01: data_length = 8'd16;
+            2'b10: data_length = 8'd32;
+            2'b11: data_length = 8'd24;
+        endcase
+    endfunction
 
     // Expected serial data
     bit [31:0] expected_tx_data;
@@ -21,6 +33,7 @@ class ssu_scoreboard extends uvm_scoreboard;
     function new(string name, uvm_component parent);
         super.new(name, parent);
         ap = new("ap", this);
+        update_data_length(); // Initialize data_length based on default SSCRL value
     endfunction
 
     function void build_phase(uvm_phase phase);
@@ -47,10 +60,10 @@ class ssu_scoreboard extends uvm_scoreboard;
             5'h03: expected_rdata = ref_sser;
             5'h04: expected_rdata = ref_sssr;
             5'h05: expected_rdata = ref_sscr2;
-            5'h08: expected_rdata = ref_sstdr[0];
-            5'h09: expected_rdata = ref_sstdr[1];
-            5'h0A: expected_rdata = ref_sstdr[2];
-            5'h0B: expected_rdata = ref_sstdr[3];
+            5'h08: expected_rdata = (data_length >= 8'd8)  ? ref_sstdr[0] : 8'h00;
+            5'h09: expected_rdata = (data_length >= 8'd16) ? ref_sstdr[1] : 8'h00;
+            5'h0A: expected_rdata = (data_length >= 8'd24) ? ref_sstdr[2] : 8'h00;
+            5'h0B: expected_rdata = (data_length >= 8'd32) ? ref_sstdr[3] : 8'h00;
             5'h0C: expected_rdata = ref_ssrdr[0];
             5'h0D: expected_rdata = ref_ssrdr[1];
             5'h0E: expected_rdata = ref_ssrdr[2];
@@ -72,13 +85,28 @@ class ssu_scoreboard extends uvm_scoreboard;
     endfunction
 
     function void check_write(ssu_transaction tr);
+        bit solp = ref_sscrh[4]; // Get current SOLP bit value
         case (tr.addr)
             5'h00: begin // SSCRH
-                ref_sscrh = tr.wdata;
-                `uvm_info("SCOREBOARD", $sformatf("Write SSCRH: %h", tr.wdata), UVM_MEDIUM)
+                // DUT preserves SOLP bit (bit 4) when writing to SSCRH
+                ref_sscrh = {tr.wdata[7:5], solp, tr.wdata[3:0]};
+                `uvm_info("SCOREBOARD", $sformatf("Write SSCRH: %h (SOLP preserved)", ref_sscrh), UVM_MEDIUM)
             end
             5'h01: begin // SSCRL
                 ref_sscrl = tr.wdata;
+                update_data_length(); // Update data_length when SSCRL changes
+                
+                // Handle software reset (SRES bit)
+                if (tr.wdata[5]) begin
+                    `uvm_info("SCOREBOARD", "Software reset triggered", UVM_MEDIUM)
+                    // Reset status register: clear ORER, CE, RDRF; set TEND, TDRE
+                    ref_sssr = 8'h0C;
+                    // Reset enable register
+                    ref_sser = 8'h00;
+                    // Reset transmit data registers
+                    ref_sstdr = '{0,0,0,0};
+                end
+                
                 `uvm_info("SCOREBOARD", $sformatf("Write SSCRL: %h", tr.wdata), UVM_MEDIUM)
             end
             5'h02: begin // SSMR
@@ -99,7 +127,12 @@ class ssu_scoreboard extends uvm_scoreboard;
                 `uvm_info("SCOREBOARD", $sformatf("Write SSCR2: %h", tr.wdata), UVM_MEDIUM)
             end
             5'h08, 5'h09, 5'h0A, 5'h0B: begin // SSTDR
-                ref_sstdr[tr.addr - 5'h08] = tr.wdata;
+                case (tr.addr)
+                    5'h08: if (data_length >= 8'd8)  ref_sstdr[0] = tr.wdata;
+                    5'h09: if (data_length >= 8'd16) ref_sstdr[1] = tr.wdata;
+                    5'h0A: if (data_length >= 8'd24) ref_sstdr[2] = tr.wdata;
+                    5'h0B: if (data_length >= 8'd32) ref_sstdr[3] = tr.wdata;
+                endcase
                 `uvm_info("SCOREBOARD", $sformatf("Write SSTDR%d: %h", tr.addr - 5'h08, tr.wdata), UVM_MEDIUM)
             end
         endcase

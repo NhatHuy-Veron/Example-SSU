@@ -1,6 +1,8 @@
-class ssu_test extends uvm_test;
+class ssu_test extends uvm_test;        // Then run main sequence
+        seq = ssu_seq::type_id::create("seq");
+        seq.start(env.agt.seqr);
 
-    `uvm_component_utils(ssu_test)
+        `uvm_info("TEST", "Main sequence completed successfully", UVM_LOW)component_utils(ssu_test)
 
     ssu_env env;
 

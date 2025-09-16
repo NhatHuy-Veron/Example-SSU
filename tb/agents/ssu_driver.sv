@@ -157,7 +157,7 @@ class ssu_driver extends uvm_driver#(ssu_transaction);
         do begin
             read_register(5'h04, status);
             timeout_count++;
-            if (timeout_count > 1000) begin // Timeout after 1000 attempts
+            if (timeout_count > 100) begin // Timeout after 100 attempts
                 `uvm_warning("DRV", "TX completion timeout - continuing")
                 break;
             end
@@ -183,7 +183,7 @@ class ssu_driver extends uvm_driver#(ssu_transaction);
         do begin
             read_register(5'h04, status);
             timeout_count++;
-            if (timeout_count > 1000) begin // Timeout after 1000 attempts
+            if (timeout_count > 100) begin // Timeout after 100 attempts
                 `uvm_warning("DRV", "RX completion timeout - continuing")
                 break;
             end
