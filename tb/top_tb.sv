@@ -59,4 +59,10 @@ module top_tb;
         run_test("ssu_test");
     end
 
+    // Timeout mechanism to prevent infinite simulation
+    initial begin
+        #1000000; // 1ms timeout
+        `uvm_fatal("TOP", "Simulation timeout - test did not complete")
+    end
+
 endmodule

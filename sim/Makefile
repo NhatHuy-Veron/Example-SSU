@@ -24,7 +24,7 @@ run:
 	vsim -c -voptargs="+acc" -assertdebug -l $(LOG_DIR)/$(TESTNAME).log $(TOP) \
 	     -wlf $(WAVE_DIR)/$(TESTNAME).wlf \
 	     -do "log -r /*; run -all; quit" \
-	     +UVM_TESTNAME=$(TESTNAME)
+	     +UVM_TESTNAME=$(TESTNAME) +UVM_TIMEOUT=1000000000,NO
 
 run_cov:
 	@echo "[SIM+COV] Running UVM test with coverage: $(TESTNAME)"

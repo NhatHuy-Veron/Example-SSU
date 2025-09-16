@@ -240,26 +240,30 @@ end
 // Register read operations
 always_comb begin
     rdata = 8'h00;
-    ready = 1'b1;
-    
-    if (cs && !we) begin
-        case (addr)
-            SSCRH_ADDR:  rdata = sscrh;
-            SSCRL_ADDR:  rdata = sscrl;
-            SSMR_ADDR:   rdata = ssmr;
-            SSER_ADDR:   rdata = sser;
-            SSSR_ADDR:   rdata = sssr;
-            SSCR2_ADDR:  rdata = sscr2;
-            SSTDR0_ADDR: rdata = (data_length >= 8'd8)  ? sstdr[0] : 8'h00;
-            SSTDR1_ADDR: rdata = (data_length >= 8'd16) ? sstdr[1] : 8'h00;
-            SSTDR2_ADDR: rdata = (data_length >= 8'd24) ? sstdr[2] : 8'h00;
-            SSTDR3_ADDR: rdata = (data_length >= 8'd32) ? sstdr[3] : 8'h00;
-            SSRDR0_ADDR: rdata = (data_length >= 8'd8)  ? ssrdr[0] : 8'h00;
-            SSRDR1_ADDR: rdata = (data_length >= 8'd16) ? ssrdr[1] : 8'h00;
-            SSRDR2_ADDR: rdata = (data_length >= 8'd24) ? ssrdr[2] : 8'h00;
-            SSRDR3_ADDR: rdata = (data_length >= 8'd32) ? ssrdr[3] : 8'h00;
-            default:     rdata = 8'h00;
-        endcase
+    ready = 1'b1;  // Always ready for both read and write operations
+
+    if (cs) begin
+        if (!we) begin
+            // Read operation
+            case (addr)
+                SSCRH_ADDR:  rdata = sscrh;
+                SSCRL_ADDR:  rdata = sscrl;
+                SSMR_ADDR:   rdata = ssmr;
+                SSER_ADDR:   rdata = sser;
+                SSSR_ADDR:   rdata = sssr;
+                SSCR2_ADDR:  rdata = sscr2;
+                SSTDR0_ADDR: rdata = (data_length >= 8'd8)  ? sstdr[0] : 8'h00;
+                SSTDR1_ADDR: rdata = (data_length >= 8'd16) ? sstdr[1] : 8'h00;
+                SSTDR2_ADDR: rdata = (data_length >= 8'd24) ? sstdr[2] : 8'h00;
+                SSTDR3_ADDR: rdata = (data_length >= 8'd32) ? sstdr[3] : 8'h00;
+                SSRDR0_ADDR: rdata = (data_length >= 8'd8)  ? ssrdr[0] : 8'h00;
+                SSRDR1_ADDR: rdata = (data_length >= 8'd16) ? ssrdr[1] : 8'h00;
+                SSRDR2_ADDR: rdata = (data_length >= 8'd24) ? ssrdr[2] : 8'h00;
+                SSRDR3_ADDR: rdata = (data_length >= 8'd32) ? ssrdr[3] : 8'h00;
+                default:     rdata = 8'h00;
+            endcase
+        end
+        // For write operations, ready is still 1'b1
     end
 end
 

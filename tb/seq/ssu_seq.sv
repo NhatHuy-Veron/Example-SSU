@@ -23,7 +23,7 @@ class ssu_seq extends uvm_sequence#(ssu_transaction);
     task test_register_access();
         ssu_transaction tr;
 
-        `uvm_info("SEQ", "Testing register access", UVM_MEDIUM)
+        `uvm_info("SEQ", "Starting register access test", UVM_MEDIUM)
 
         // Write to control registers
         tr = ssu_transaction::type_id::create("tr");
@@ -31,6 +31,7 @@ class ssu_seq extends uvm_sequence#(ssu_transaction);
         tr.trans_type = ssu_transaction::WRITE;
         tr.addr = 5'h00; // SSCRH
         tr.wdata = 8'h80; // Master mode
+        `uvm_info("SEQ", $sformatf("Writing to SSCRH: addr=%h, data=%h", tr.addr, tr.wdata), UVM_MEDIUM)
         finish_item(tr);
 
         // Write to mode register
@@ -39,6 +40,7 @@ class ssu_seq extends uvm_sequence#(ssu_transaction);
         tr.trans_type = ssu_transaction::WRITE;
         tr.addr = 5'h02; // SSMR
         tr.wdata = 8'h00; // Default mode
+        `uvm_info("SEQ", $sformatf("Writing to SSMR: addr=%h, data=%h", tr.addr, tr.wdata), UVM_MEDIUM)
         finish_item(tr);
 
         // Read back registers
@@ -46,13 +48,17 @@ class ssu_seq extends uvm_sequence#(ssu_transaction);
         start_item(tr);
         tr.trans_type = ssu_transaction::READ;
         tr.addr = 5'h00; // SSCRH
+        `uvm_info("SEQ", $sformatf("Reading from SSCRH: addr=%h", tr.addr), UVM_MEDIUM)
         finish_item(tr);
 
         tr = ssu_transaction::type_id::create("tr");
         start_item(tr);
         tr.trans_type = ssu_transaction::READ;
         tr.addr = 5'h02; // SSMR
+        `uvm_info("SEQ", $sformatf("Reading from SSMR: addr=%h", tr.addr), UVM_MEDIUM)
         finish_item(tr);
+
+        `uvm_info("SEQ", "Register access test completed", UVM_MEDIUM)
     endtask
 
     task test_serial_transmission();
